@@ -14,11 +14,10 @@ public class Generics {
         second.add(new Predator());
         third.add(new Tiger());
 
-/**
- *      gen.printObject(first);
- *      gen.printObject(second);
- *      gen.printObject(third);
- */
+      gen.printObject(first);
+      gen.printObject(second);
+      gen.printObject(third);
+
 
         System.out.println();
 
@@ -36,10 +35,8 @@ public class Generics {
          */
     }
 
-    public void printObject(List<Object> list) {
-        Iterator<Object> it = list.iterator();
-        while (it.hasNext()) {
-            Object next = it.next();
+    public void printObject(List<?> list) {
+        for (Object next : list) {
             System.out.println("Текущий элемент: " + next);
         }
     }
