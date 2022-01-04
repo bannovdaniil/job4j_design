@@ -12,6 +12,8 @@ import java.util.Objects;
  * end - конечный для быстрого добавления
  * begin - начало списка для Итератора.
  * size - размер списка
+ * modCount - флаг модификации
+ *
  * @param <E> - тип хранимых элементов
  */
 public class SimpleLinkedList<E> implements List<E> {
@@ -21,12 +23,14 @@ public class SimpleLinkedList<E> implements List<E> {
     private SimpleLinkedList<E> end;
     private SimpleLinkedList<E> begin;
     private int size = 0;
+    private int modCount;
 
     public SimpleLinkedList() {
         this.begin = this;
         this.end = this;
         this.prev = null;
         this.last = null;
+        this.modCount = 0;
     }
 
     /**
@@ -58,6 +62,7 @@ public class SimpleLinkedList<E> implements List<E> {
         end.last.prev = end;
         end = end.last;
         this.size++;
+        modCount++;
     }
 
     /**
@@ -71,9 +76,7 @@ public class SimpleLinkedList<E> implements List<E> {
      */
     @Override
     public E get(int index) {
-        if (index < 0 || index >= size) {
-            throw new IndexOutOfBoundsException();
-        }
+        Objects.checkIndex(index, size);
         if (index == size - 1) {
             return end.element;
         }
@@ -90,6 +93,7 @@ public class SimpleLinkedList<E> implements List<E> {
     public Iterator<E> iterator() {
         return new Iterator<E>() {
             private SimpleLinkedList<E> current = begin;
+            private final int mod = modCount;
 
             @Override
             public boolean hasNext() {
@@ -98,6 +102,9 @@ public class SimpleLinkedList<E> implements List<E> {
 
             @Override
             public E next() {
+                if (modCount != mod) {
+                    throw new ConcurrentModificationException();
+                }
                 var res = current.element;
                 current = current.last;
                 return res;
