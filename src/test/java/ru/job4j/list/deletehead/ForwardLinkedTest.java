@@ -9,6 +9,16 @@ import static org.hamcrest.Matchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 public class ForwardLinkedTest {
+    @Test
+    public void whenFirstsAddIsOk() {
+        ForwardLinked<Integer> linked = new ForwardLinked<>();
+        linked.add(1);
+        linked.add(2);
+        linked.addFirst(0);
+        linked.addFirst(-1);
+        Iterator<Integer> it = linked.iterator();
+        assertThat(it.next(), is(-1));
+    }
 
     @Test(expected = NoSuchElementException.class)
     public void whenDeleteFirst() {
