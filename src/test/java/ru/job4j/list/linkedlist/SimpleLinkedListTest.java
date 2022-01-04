@@ -1,7 +1,9 @@
-package ru.job4j.linkedlist;
+package ru.job4j.list.linkedlist;
 
 import org.hamcrest.core.Is;
 import org.junit.Test;
+import ru.job4j.list.linkedlist.List;
+import ru.job4j.list.linkedlist.SimpleLinkedList;
 
 import java.util.Iterator;
 

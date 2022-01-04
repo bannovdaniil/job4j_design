@@ -1,8 +1,7 @@
-package ru.job4j.linkedlist;
+package ru.job4j.list.linkedlist;
 
 import java.util.ConcurrentModificationException;
 import java.util.Iterator;
-import java.util.NoSuchElementException;
 import java.util.Objects;
 
 /**

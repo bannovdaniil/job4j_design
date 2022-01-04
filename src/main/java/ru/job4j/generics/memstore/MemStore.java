@@ -35,11 +35,8 @@ public final class MemStore<T extends Base> implements Store<T> {
      */
     @Override
     public boolean replace(String id, T model) {
-        if (storage.containsKey(id)) {
-            storage.put(id, model);
-            return true;
-        }
-        return false;
+       storage.put(id, model);
+       return storage.get(id).equals(model);
     }
 
     /**
@@ -54,17 +51,14 @@ public final class MemStore<T extends Base> implements Store<T> {
      */
     @Override
     public boolean delete(String id) {
-        if (storage.containsKey(id)) {
-            storage.remove(id);
-            return true;
-        }
-        return false;
+        return storage.remove(id, storage.get(id));
     }
 
     /**
      * Найти объект по id
      * V get(Object key)
      * return (storage.containsKey(id)) ? storage.get(id) : null;
+     *
      * @param id - id объекта
      * @return - объект или null
      */
