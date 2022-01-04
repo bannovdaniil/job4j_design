@@ -96,14 +96,14 @@ public class SimpleLinkedList<E> implements List<E> {
 
             @Override
             public boolean hasNext() {
+                if (modCount != mod) {
+                    throw new ConcurrentModificationException();
+                }
                 return current != null && current.element != null;
             }
 
             @Override
             public E next() {
-                if (modCount != mod) {
-                    throw new ConcurrentModificationException();
-                }
                 var res = current.element;
                 current = current.last;
                 return res;
