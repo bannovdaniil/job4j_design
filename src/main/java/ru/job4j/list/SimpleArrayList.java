@@ -12,13 +12,17 @@ public class SimpleArrayList<T> implements List<T> {
         this.modCount = 0;
     }
 
+    private T[] grow() {
+        int capacity = (size == 0 ? 1 : size) * 2;
+        T[] newContainer = (T[]) new Object[capacity];
+        newContainer = Arrays.copyOf(container, capacity);
+        return newContainer;
+    }
+
     @Override
     public void add(T value) {
         if (size == container.length) {
-            int capacity = size * 2;
-            T[] newContainer = (T[]) new Object[capacity];
-            newContainer = Arrays.copyOf(container, capacity);
-            container = newContainer;
+            container = grow();
         }
         container[size++] = value;
         this.modCount++;
@@ -26,7 +30,6 @@ public class SimpleArrayList<T> implements List<T> {
 
     @Override
     public T set(int index, T newValue) {
-        Objects.checkIndex(index, container.length);
         T result = get(index);
         container[index] = newValue;
         return result;
@@ -34,19 +37,17 @@ public class SimpleArrayList<T> implements List<T> {
 
     @Override
     public T remove(int index) {
-        Objects.checkIndex(index, container.length);
         T result = get(index);
         System.arraycopy(container, index + 1,
                 container, index, container.length - (index + 1));
-        size--;
-        container[size] = null;
-        this.modCount--;
+        container[--size] = null;
+        this.modCount++;
         return result;
     }
 
     @Override
     public T get(int index) {
-        Objects.checkIndex(index, container.length);
+        Objects.checkIndex(index, size);
         return container[index];
     }
 
@@ -57,20 +58,20 @@ public class SimpleArrayList<T> implements List<T> {
 
     @Override
     public Iterator<T> iterator() {
-        modCount = 0;
+        int iteratorMod = modCount;
         return new Iterator<T>() {
             private int count = 0;
 
             @Override
             public boolean hasNext() {
+                if (iteratorMod != modCount) {
+                    throw new ConcurrentModificationException();
+                }
                 return count < size;
             }
 
             @Override
             public T next() {
-                if (modCount != 0) {
-                    throw new ConcurrentModificationException();
-                }
                 if (!hasNext()) {
                     throw new NoSuchElementException();
                 }
