@@ -16,19 +16,14 @@ import java.util.Objects;
  * @param <E> - тип хранимых элементов
  */
 public class SimpleLinkedList<E> implements List<E> {
-    private E element;
-    private SimpleLinkedList<E> prev;
-    private SimpleLinkedList<E> last;
-    private SimpleLinkedList<E> end;
-    private SimpleLinkedList<E> begin;
+    private Node<E> node;
+    private Node<E> end;
     private int size = 0;
     private int modCount;
 
     public SimpleLinkedList() {
-        this.begin = this;
-        this.end = this;
-        this.prev = null;
-        this.last = null;
+        this.node = new Node<E>();
+        this.end = this.node;
         this.modCount = 0;
     }
 
@@ -52,14 +47,14 @@ public class SimpleLinkedList<E> implements List<E> {
     @Override
     public void add(E value) {
         if (size == 0) {
-            this.element = value;
+            this.node.element = value;
             size++;
             return;
         }
-        end.last = new SimpleLinkedList<E>();
-        end.last.element = value;
-        end.last.prev = end;
-        end = end.last;
+        end.next = new Node<E>();
+        end.next.element = value;
+        end.next.prev = end;
+        end = end.next;
         this.size++;
         modCount++;
     }
@@ -79,19 +74,35 @@ public class SimpleLinkedList<E> implements List<E> {
         if (index == size - 1) {
             return end.element;
         }
-        var el = this;
-        for (int i = 1; i < index; i++) {
-            if (el.last != null) {
-                el = el.last;
+        var el = node;
+        if (index < size / 2) {
+            for (int i = 1; i < index; i++) {
+                if (node.next != null) {
+                    el = node.next;
+                }
+            }
+        } else {
+            el = end;
+            for (int i = size - 1; i != index; i--) {
+                if (end.prev != null) {
+                    el = end.prev;
+                }
             }
         }
         return el.element;
     }
 
+    private class Node<E> {
+        private E element;
+        private Node<E> prev;
+        private Node<E> next;
+
+    }
+
     @Override
     public Iterator<E> iterator() {
         return new Iterator<E>() {
-            private SimpleLinkedList<E> current = begin;
+            private Node<E> current = node;
             private final int mod = modCount;
 
             @Override
@@ -105,7 +116,7 @@ public class SimpleLinkedList<E> implements List<E> {
             @Override
             public E next() {
                 var res = current.element;
-                current = current.last;
+                current = current.next;
                 return res;
             }
         };
