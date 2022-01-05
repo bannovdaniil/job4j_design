@@ -5,7 +5,8 @@ import java.util.NoSuchElementException;
 public class SimpleQueue<T> {
     private final SimpleStack<T> in = new SimpleStack<>();
     private final SimpleStack<T> out = new SimpleStack<>();
-    private int count = 0;
+    private int countIn = 0;
+    private int countOut = 0;
 
     /**
      * и так что мы можем получить не дополняя никаких еще либо переменных
@@ -15,27 +16,30 @@ public class SimpleQueue<T> {
      * @return значение элемента
      */
     public T poll() {
-        if (count == 0) {
+        if (countIn == 0 && countOut == 0) {
             throw new NoSuchElementException();
         }
-        change(out, in);
-        count--;
+        if (countIn > 0) {
+            countOut = change(out, in, countIn);
+            countIn = 0;
+        }
+        countOut--;
         return out.pop();
     }
 
     public void push(T value) {
-        change(in, out);
+        if (countOut > 0) {
+            countIn = change(in, out, countOut);
+            countOut = 0;
+        }
         in.push(value);
-        count++;
+        countIn++;
     }
 
-    private void change(SimpleStack<T> a1, SimpleStack<T> a2) {
+    private int change(SimpleStack<T> a1, SimpleStack<T> a2, int count) {
         for (int i = 0; i < count; i++) {
-            try {
-                a1.push(a2.pop());
-            } catch (NoSuchElementException err) {
-                break;
-            }
+            a1.push(a2.pop());
         }
+        return count;
     }
 }
