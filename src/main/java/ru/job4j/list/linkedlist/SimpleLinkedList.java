@@ -2,6 +2,7 @@ package ru.job4j.list.linkedlist;
 
 import java.util.ConcurrentModificationException;
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 import java.util.Objects;
 
 /**
@@ -104,19 +105,24 @@ public class SimpleLinkedList<E> implements List<E> {
         return new Iterator<E>() {
             private Node<E> current = node;
             private final int mod = modCount;
+            private int inCount = 0;
 
             @Override
             public boolean hasNext() {
                 if (modCount != mod) {
                     throw new ConcurrentModificationException();
                 }
-                return current != null && current.element != null;
+                return inCount != size;
             }
 
             @Override
             public E next() {
+                if (!hasNext()) {
+                    throw new NoSuchElementException();
+                }
                 var res = current.element;
                 current = current.next;
+                inCount++;
                 return res;
             }
         };
