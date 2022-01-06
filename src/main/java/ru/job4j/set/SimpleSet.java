@@ -16,11 +16,11 @@ public class SimpleSet<T> implements Set<T> {
      */
     @Override
     public boolean add(T value) {
-        if (!this.contains(value)) {
+        var res = !this.contains(value);
+        if (res) {
             set.add(value);
-            return true;
         }
-        return false;
+        return res;
     }
 
     /**
