@@ -19,9 +19,7 @@ public class SimpleArrayList<T> implements List<T> {
 
     private T[] grow() {
         int capacity = (size == 0 ? 1 : size) * 2;
-        T[] newContainer = (T[]) new Object[capacity];
-        newContainer = Arrays.copyOf(container, capacity);
-        return newContainer;
+        return Arrays.copyOf(container, capacity);
     }
 
     @Override
