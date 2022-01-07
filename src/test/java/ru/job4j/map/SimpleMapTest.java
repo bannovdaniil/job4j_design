@@ -138,4 +138,5 @@ public class SimpleMapTest {
         assertThat(second.next(), Is.is("2"));
         assertThat(second.hasNext(), Is.is(false));
     }
+
 }
