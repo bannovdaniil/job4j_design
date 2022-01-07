@@ -3,11 +3,6 @@ package ru.job4j.map.collision;
 import java.util.*;
 
 public class CollisionShow {
-    public static List<Character> symbols(String string) {
-        //.collect(Collectors.toList());
-        return null;
-    }
-
     public static void main(String[] args) {
         User user1 = new User("Семён", 3,
                 new GregorianCalendar(2022, Calendar.JANUARY, 6));
