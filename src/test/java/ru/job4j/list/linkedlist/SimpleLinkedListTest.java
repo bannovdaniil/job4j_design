@@ -5,6 +5,7 @@ import org.junit.Test;
 import ru.job4j.list.linkedlist.List;
 import ru.job4j.list.linkedlist.SimpleLinkedList;
 
+import java.util.HashMap;
 import java.util.Iterator;
 
 import static org.hamcrest.MatcherAssert.assertThat;
