@@ -3,8 +3,7 @@ package ru.job4j.io;
 import java.io.FileOutputStream;
 
 public class ResultFile {
-    private static boolean multipleToFile(int size) {
-        boolean res = true;
+    private String generationMatrix(int size) {
         StringBuilder rowStr = new StringBuilder();
         for (int row = 0; row < size; row++) {
             for (int cell = 0; cell < size; cell++) {
@@ -13,8 +12,14 @@ public class ResultFile {
             }
             rowStr.append(System.lineSeparator());
         }
+        return rowStr.toString();
+    }
+
+    private boolean multipleToFile(int size) {
+        boolean res = true;
+        String rowStr = generationMatrix(size);
         try (FileOutputStream out = new FileOutputStream("result.txt")) {
-            out.write(rowStr.toString().getBytes());
+            out.write(rowStr.getBytes());
         } catch (Exception e) {
             e.printStackTrace();
             res = false;
@@ -23,6 +28,7 @@ public class ResultFile {
     }
 
     public static void main(String[] args) {
-        System.out.println(multipleToFile(25) ? "Ok" : "Error");
+        ResultFile rf = new ResultFile();
+        System.out.println(rf.multipleToFile(10) ? "Ok" : "Error");
     }
 }
