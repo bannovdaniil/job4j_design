@@ -3,7 +3,7 @@ package ru.job4j.io;
 import java.io.FileInputStream;
 
 public class EvenNumberFile {
-    private static void printEven(String str) {
+    private void printEven(String str) {
         for (var s : str.split(System.lineSeparator())) {
             if (s != null) {
                 try {
@@ -18,8 +18,8 @@ public class EvenNumberFile {
         }
     }
 
-    public static void main(String[] args) {
-        try (FileInputStream in = new FileInputStream("even.txt")) {
+    private void readFile(String fName) {
+        try (FileInputStream in = new FileInputStream(fName)) {
             StringBuilder text = new StringBuilder();
             int read;
             while ((read = in.read()) != -1) {
@@ -29,5 +29,10 @@ public class EvenNumberFile {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public static void main(String[] args) {
+        EvenNumberFile evenFile = new EvenNumberFile();
+        evenFile.readFile("even.txt");
     }
 }
