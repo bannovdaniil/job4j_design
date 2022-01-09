@@ -44,16 +44,16 @@ public class Analize {
         for (var curUser : current) {
             int uId = curUser.getId();
             if (!map.containsKey(uId)) {
-                added = 1;
+                added++;
                 map.remove(uId);
             } else if (!map.get(uId).equals(curUser.getName())) {
-                changed = 1;
+                changed++;
                 map.remove(uId);
             } else {
                 map.remove(uId);
             }
         }
-        int deleted = map.size() > 0 ? 1 : 0;
+        int deleted = map.size();
         return new Info(added, changed, deleted);
     }
 }
