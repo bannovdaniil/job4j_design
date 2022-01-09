@@ -37,7 +37,7 @@ public class ConfigTest {
 
     @Test(expected = IllegalArgumentException.class)
     public void whenWrongArgumentComment() {
-        String path = "./data/pair_exception_name_comment.properties";
+        String path = "./data/pair_exception_name_comment.txt";
         Config config = new Config(path);
         config.load();
         assertThat(config.value("name"), is("Bannov Daniil"));
