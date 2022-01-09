@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class LogFilter {
-    public static List<String> filter(String file) {
+    public List<String> filter(String file) {
         List<String> logLines = new ArrayList<>();
         try (BufferedReader in = new BufferedReader(new FileReader(file))) {
             for (String s = in.readLine(); s != null; s = in.readLine()) {
@@ -22,7 +22,7 @@ public class LogFilter {
     }
 
     public static void main(String[] args) {
-        List<String> log = filter("log.txt");
-        System.out.println(log);
+        LogFilter logFilter = new LogFilter();
+        logFilter.filter("log.txt").forEach(System.out::println);
     }
 }
