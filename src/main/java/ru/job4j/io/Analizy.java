@@ -44,7 +44,6 @@ public class Analizy {
     public void unavailable(String source, String target) {
         List<String> errorCode = List.of("400", "500");
         StringBuilder log = readFile(source);
-        System.out.println(log);
         List<String> logList = new ArrayList<>();
         StringBuilder startTime = new StringBuilder();
         for (String s : log.toString().split(System.lineSeparator())) {
