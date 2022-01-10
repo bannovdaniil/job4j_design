@@ -17,7 +17,7 @@ public class Dir {
         for (File subfile : file.listFiles()) {
             if (subfile.isFile()) {
                 System.out.printf("Name: %s Size : %s%n",
-                        subfile.getAbsoluteFile(),
+                        subfile.getName(),
                         subfile.length());
             }
         }
