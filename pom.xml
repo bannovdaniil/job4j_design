@@ -42,10 +42,10 @@
                             <goal>shade</goal>
                         </goals>
                         <configuration>
-                            <finalName>pack</finalName>
+                            <finalName>csvReader</finalName>
                             <transformers>
                                 <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-                                    <mainClass>ru.job4j.io.Zip</mainClass>
+                                    <mainClass>ru.job4j.csv.CSVReader</mainClass>
                                 </transformer>
                             </transformers>
                         </configuration>

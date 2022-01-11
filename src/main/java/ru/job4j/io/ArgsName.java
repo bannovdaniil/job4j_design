@@ -8,6 +8,10 @@ public class ArgsName {
     private final Map<String, String> values = new HashMap<>();
 
     public String get(String key) {
+        if (!values.containsKey(key)) {
+            throw new IllegalArgumentException(System.lineSeparator()
+                    + "Parameter -" + key + " is absent " + message);
+        }
         return values.get(key);
     }
 
