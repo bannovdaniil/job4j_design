@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class ArgsName {
-
+    private String message = "Usage: prog [-name1=param [-name2=param [...]]]";
     private final Map<String, String> values = new HashMap<>();
 
     public String get(String key) {
@@ -24,15 +24,15 @@ public class ArgsName {
 
     private void parse(String[] args) {
         if (args.length < 1) {
-            throw new IllegalArgumentException("Usage: prog [-name1=param [-name2=param [...]]]");
+            throw new IllegalArgumentException(message);
         }
         for (String s : args) {
             if (!s.startsWith("-") || !s.contains("=")) {
-                throw new IllegalArgumentException("Usage: prog [-name1=param [-name2=param [...]]]");
+                throw new IllegalArgumentException(message);
             }
             String[] par = s.substring(1).split("=", 2);
             if (par[0].length() == 0 || par[1].length() == 0) {
-                throw new IllegalArgumentException("Usage: prog [-name1=param [-name2=param [...]]]");
+                throw new IllegalArgumentException(message);
             }
             values.putIfAbsent(par[0], par[1]);
         }
@@ -42,6 +42,17 @@ public class ArgsName {
         ArgsName names = new ArgsName();
         names.parse(args);
         return names;
+    }
+
+    public static ArgsName of(String[] args, String message) {
+        ArgsName names = new ArgsName();
+        names.message = message;
+        names.parse(args);
+        return names;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
     }
 
     public static void main(String[] args) {
