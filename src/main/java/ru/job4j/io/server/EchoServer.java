@@ -24,15 +24,48 @@ public class EchoServer {
                     out.write("HTTP/1.1 200 OK\r\n\r\n".getBytes());
                     for (String str = in.readLine(); str != null && !str.isEmpty(); str = in.readLine()) {
                         Map<String, String> params = getHead(str);
-                        if (checkParam(params, "msg", "Bye")) {
-                            server.close();
-                        }
+                        executeParam(server, out, params);
                         System.out.println(str);
                     }
                     out.flush();
                 }
             }
         }
+    }
+
+    /**
+     * Создавать фабрику не будем, вынесем сюда просто методы.
+     * Exit - выход
+     * Hello - Hello.
+     * Any - What.
+     *
+     * @param server - сервер
+     * @param out - выходной поток сервера
+     * @param params - мапа с параметрами
+     */
+    private static void executeParam(ServerSocket server,
+                                     OutputStream out,
+                                     Map<String, String> params) throws IOException {
+        if (checkParam(params, "msg", "Exit")) {
+            server.close();
+            return;
+        }
+        if (checkParam(params, "msg", "Hello")) {
+            sayMessage(out, "Hello.");
+        }
+        if (checkParam(params, "msg", "Any")) {
+            sayMessage(out, "What.");
+        }
+    }
+
+    /**
+     * Выдает ответ сервера.
+     *
+     * @param out - выходной поток сервера
+     * @param message - сообщение
+     */
+    private static void sayMessage(OutputStream out, String message) throws IOException {
+        out.write(message.getBytes());
     }
 
     /**
