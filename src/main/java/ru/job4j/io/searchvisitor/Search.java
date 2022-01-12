@@ -16,7 +16,40 @@ public class Search {
                     + System.lineSeparator()
                     + "Example: java -jar Search.jar c:\\ java");
         }
-        File pathDir = new File(args[0]);
+        String extFile = checkExt(args[1]);
+        Path start = checkFile(args[0]);
+        search(start, p -> p.toFile().getName()
+                .endsWith("." + extFile))
+                .forEach(System.out::println);
+    }
+
+    /**
+     * Проверка расширения, на валидность
+     * расширение не может содержать спецсимволы,
+     * на работоспособность не повлияет, но у нас нет реализации масок.
+     *
+      * @param extFile - расширение
+     * @return - расширение
+     */
+    private static String checkExt(String extFile) {
+        if (extFile.matches(".*[<>:\"\\|\\?\\*\\.].*")) {
+            throw new IllegalArgumentException(
+                    String.format("EXT [%s] contains one of the chars: .<>:\"|?*", extFile));
+        }
+        return extFile;
+    }
+
+    /**
+     * Проводит проверку директории, если ошибки тогда бросаем исключение.
+     * 1. такая область на диске есть
+     * 2. эта область папка.
+     * Если все хорошо возвращаем дескриптор.
+     *
+     * @param folderName - аргументы командной строки.
+     * @return - File
+     */
+    private static Path checkFile(String folderName) {
+        File pathDir = new File(folderName);
         if (!pathDir.exists()) {
             throw new IllegalArgumentException(String.format("Not exist %s",
                     pathDir.getAbsoluteFile()));
@@ -25,15 +58,7 @@ public class Search {
             throw new IllegalArgumentException(String.format("Not directory %s",
                     pathDir.getAbsoluteFile()));
         }
-        String extFile = args[1];
-        if (extFile.matches(".*[<>:\"\\|\\?\\*\\.].*")) {
-            throw new IllegalArgumentException(
-                    String.format("EXT [%s] contains one of the chars: .<>:\"|?*", extFile));
-        }
-        Path start = Paths.get(args[0]);
-        search(start, p -> p.toFile().getName()
-                .endsWith("." + extFile))
-                .forEach(System.out::println);
+        return Paths.get(folderName);
     }
 
     public static List<Path> search(Path root, Predicate<Path> condition) throws IOException {
