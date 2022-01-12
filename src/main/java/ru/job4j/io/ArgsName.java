@@ -7,6 +7,11 @@ public class ArgsName {
     private String message = "Usage: prog [-name1=param [-name2=param [...]]]";
     private final Map<String, String> values = new HashMap<>();
 
+    /**
+     * если ключ не обнаружен, ошибка
+      * @param key - ключ
+     * @return - значение ключа
+     */
     public String get(String key) {
         if (!values.containsKey(key)) {
             throw new IllegalArgumentException(System.lineSeparator()
@@ -35,6 +40,10 @@ public class ArgsName {
         }
     }
 
+    /**
+     * Проверка параметра на валидность и разборка на ключ/значение
+      * @param s строка с параметром
+     */
     private void checkParameter(String s) {
         if (!s.startsWith("-") || !s.contains("=")) {
             throw new IllegalArgumentException(message);
