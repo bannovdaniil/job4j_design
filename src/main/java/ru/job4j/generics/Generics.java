@@ -22,7 +22,7 @@ public class Generics {
         System.out.println();
 
         /**      gen.printBoundedWildCard(first);
-         *
+         * так было в задании
          */
         gen.printBoundedWildCard(second);
         gen.printBoundedWildCard(third);
@@ -31,7 +31,7 @@ public class Generics {
         gen.printLowerBoundedWildCard(first);
         gen.printLowerBoundedWildCard(second);
         /** gen.printLowerBoundedWildCard(third);
-         *
+         * так было в задании
          */
     }
 
