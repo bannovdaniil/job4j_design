@@ -31,15 +31,19 @@ public class ArgsName {
             throw new IllegalArgumentException(message);
         }
         for (String s : args) {
-            if (!s.startsWith("-") || !s.contains("=")) {
-                throw new IllegalArgumentException(message);
-            }
-            String[] par = s.substring(1).split("=", 2);
-            if (par[0].length() == 0 || par[1].length() == 0) {
-                throw new IllegalArgumentException(message);
-            }
-            values.putIfAbsent(par[0], par[1]);
+            checkParameter(s);
         }
+    }
+
+    private void checkParameter(String s) {
+        if (!s.startsWith("-") || !s.contains("=")) {
+            throw new IllegalArgumentException(message);
+        }
+        String[] par = s.substring(1).split("=", 2);
+        if (par[0].length() == 0 || par[1].length() == 0) {
+            throw new IllegalArgumentException(message);
+        }
+        values.putIfAbsent(par[0], par[1]);
     }
 
     public static ArgsName of(String[] args) {
