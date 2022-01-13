@@ -14,7 +14,7 @@ import org.slf4j.LoggerFactory;
 import ru.job4j.io.UsageLog4j;
 
 public class EchoServer {
-    private static final Logger LOG = LoggerFactory.getLogger(UsageLog4j.class.getName());
+    private static final Logger LOG = LoggerFactory.getLogger(EchoServer.class.getName());
 
     /**
      * рефактор - убрал static создание сервера вынес в отдельный метод
