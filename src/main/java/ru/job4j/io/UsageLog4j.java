@@ -24,10 +24,8 @@ public class UsageLog4j {
         long l = 1;
         float f = 0.1f;
         double d = 0.1d;
-        boolean magic = true;
-        LOG.debug("byte: {}, char: {}, short: {}, int: {},"
-                        + " long: {}, float: {}, double: {}, boolean {}",
-                b, c, s, i, l, f, d, magic);
+        LOG.debug("byte: {}, char: {}, short: {}, int: {}, long: {}, float: {}, double: {}",
+                b, c, s, i, l, f, d);
         var user = new Object() {
             private final String name = "Inline object name.";
         };
