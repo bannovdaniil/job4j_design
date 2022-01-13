@@ -1,8 +1,10 @@
 <?xml version="1.1" encoding="UTF-8" ?>
 <user name="Daniil Bannov" age="44" java="true">
     <childrens>
-        <cildren>Катя</cildren>
-        <cildren>Кристина</cildren>]
+        <children>Даша</children>
+        <children>Кристина</children>
+        <children>Катя</children>
+        <children>Кирилл</children>
     </childrens>
     <address street="Leninskaya" home="12"/>
 </user>
