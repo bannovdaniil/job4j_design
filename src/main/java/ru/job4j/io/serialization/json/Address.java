@@ -25,4 +25,12 @@ public class Address {
                 + ", home=" + home
                 + '}';
     }
+
+    public String getStreet() {
+        return street;
+    }
+
+    public int getHome() {
+        return home;
+    }
 }

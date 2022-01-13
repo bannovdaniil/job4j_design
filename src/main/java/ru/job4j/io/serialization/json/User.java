@@ -38,4 +38,24 @@ public class User {
                 + ", adress=" + address
                 + '}';
     }
+
+    public String getName() {
+        return name;
+    }
+
+    public int getAge() {
+        return age;
+    }
+
+    public boolean isJava() {
+        return java;
+    }
+
+    public String[] getChildren() {
+        return children;
+    }
+
+    public Address getAddress() {
+        return address;
+    }
 }
