@@ -8,3 +8,4 @@ insert into cars(name, color, number) values('Toyota', 'white', 'р021рр177rus
 select * from cars;
 update cars set color='red';
 select * from cars;
+delete from cars;
