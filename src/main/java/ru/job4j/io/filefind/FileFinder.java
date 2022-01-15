@@ -1,18 +1,13 @@
 package ru.job4j.io.filefind;
 
-import ru.job4j.io.searchvisitor.SearchFiles;
-
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Predicate;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
 
 /**
@@ -39,7 +34,7 @@ public class FileFinder {
         String typeFinder = arg.get("t");
         String outFinder = arg.get("o");
         String regexp = selectType(nameFinder, typeFinder);
-        Path startFolder = Paths.get(pathFinder);
+        Path startFolder = checkFile(pathFinder);
         System.out.println("Scan: " + pathFinder);
         List<Path> fileList;
         try {
@@ -57,12 +52,11 @@ public class FileFinder {
     }
 
     private static String selectType(String nameFinder, String typeFinder) {
-        String regexp = switch (typeFinder) {
+        return switch (typeFinder) {
             case "name", "regex" -> nameFinder;
             case "mask" -> maskToRegex(nameFinder);
             default -> throw new IllegalArgumentException();
         };
-        return regexp;
     }
 
     /**

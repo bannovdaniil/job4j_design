@@ -30,7 +30,6 @@ public class FileFinderArgs {
      *
      * @param args - агрументы комманденой строки
      */
-
     private void parse(String[] args) {
         if (args.length < 1) {
             throw new IllegalArgumentException(message);
@@ -72,11 +71,4 @@ public class FileFinderArgs {
         this.message = message;
     }
 
-    public static void main(String[] args) {
-        FileFinderArgs jvm = FileFinderArgs.of(new String[]{"-Xmx=512", "-encoding=UTF-8"});
-        System.out.println(jvm.get("Xmx"));
-
-        FileFinderArgs zip = FileFinderArgs.of(new String[]{"-out=project.zip", "-encoding=UTF-8"});
-        System.out.println(zip.get("out"));
-    }
 }
