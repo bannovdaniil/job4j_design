@@ -12,6 +12,10 @@ SELECT *
 FROM product
 WHERE expired_date < CURRENT_DATE;
 -- 4. Написать запрос, который выводит самый дорогой продукт.
+SELECT *
+FROM product AS p
+WHERE p.price = (SELECT MAX(price) FROM product);
+-- ИЛИ
 SELECT p.id, p.name, p.type_id, p.expired_date, p.price
 FROM product AS p
 INNER JOIN (
