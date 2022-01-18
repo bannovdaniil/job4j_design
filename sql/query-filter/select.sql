@@ -39,7 +39,6 @@ ON (UPPER(t.name) LIKE UPPER('сыр') OR  UPPER(t.name) LIKE UPPER('молок�
 -- Под количеством подразумевается количество продуктов определенного типа.
 -- Например, если есть тип "СЫР" и продукты "Сыр плавленный" и "Сыр моцарелла",
 -- которые ему принадлежат, то количество продуктов типа "СЫР" будет 2. 
-
 SELECT t.name, countselect.count
 FROM type AS t
 INNER JOIN(
@@ -49,9 +48,17 @@ INNER JOIN(
 -- HAVING COUNT(name)<10
 ) AS countselect
 ON countselect.type_id = t.id AND countselect.count<10;
+-- ИЛИ ----
+SELECT t.name, COUNT(*)
+FROM type AS t
+INNER JOIN product AS p
+ON p.type_id = t.id AND (SELECT COUNT(*) FROM product AS p WHERE p.type_id = t.id)<10
+GROUP BY t.name
+ORDER BY t.name;
 -- 8. Вывести все продукты и их тип.
 SELECT p.id, p.name, t.name AS type, p.expired_date, p.price
 FROM product AS p
 INNER JOIN type AS t
 ON p.type_id = t.id
 ORDER BY t.name ASC;
+
