@@ -20,11 +20,11 @@ WHERE car.carbody_id IS NULL;
 SELECT eng.id, eng.name
 FROM engine AS eng
 LEFT OUTER JOIN cars AS car
-ON eng.id = car.carbody_id
-WHERE car.carbody_id IS NULL;
+ON eng.id = car.engine_id
+WHERE car.engine_id IS NULL;
 
 SELECT gb.id, gb.name
 FROM gearbox AS gb
 LEFT OUTER JOIN cars AS car
-ON gb.id = car.carbody_id
-WHERE car.carbody_id IS NULL;
+ON gb.id = car.gearbox_id
+WHERE car.gearbox_id IS NULL;
