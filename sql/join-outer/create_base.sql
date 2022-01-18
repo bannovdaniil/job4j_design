@@ -40,5 +40,4 @@ CREATE TABLE teens (
 
 INSERT INTO teens(name, gender) VALUES('Саша', 'мальчик');
 INSERT INTO teens(name, gender) VALUES('Женя', 'девочка');
-
-
+INSERT INTO teens(name, gender) VALUES('Лена', 'девочка');

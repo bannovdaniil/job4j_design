@@ -46,7 +46,7 @@ ORDER BY dep.name;
 
 -- 5. Создать таблицу teens с атрибутами name, gender и заполнить ее. 
 -- Используя cross join составить все возможные разнополые пары
-SELECT t1.name, t2.gender
+SELECT t1.name || '(' || t1.gender || ')' AS one, t2.name || '(' || t2.gender || ')' AS one
 FROM teens AS t1
-CROSS JOIN teens AS t2;
-
+CROSS JOIN teens AS t2
+WHERE t1.gender != t2.gender;
