@@ -55,6 +55,7 @@ INNER JOIN product AS p
 ON p.type_id = t.id AND (SELECT COUNT(*) FROM product AS p WHERE p.type_id = t.id)<10
 GROUP BY t.name
 ORDER BY t.name;
+
 -- 8. Вывести все продукты и их тип.
 SELECT p.id, p.name, t.name AS type, p.expired_date, p.price
 FROM product AS p
