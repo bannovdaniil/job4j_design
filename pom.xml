@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<!-- проверить новые версии:  mvn versions:display-dependency-updates -->
     <modelVersion>4.0.0</modelVersion>
     <groupId>ru.job4j</groupId>
     <artifactId>job4j_design</artifactId>
@@ -65,6 +66,12 @@
             <artifactId>json</artifactId>
             <version>20211205</version>
         </dependency>
+        <!-- PostgreSQL -->
+        <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <version>42.3.1</version>
+        </dependency>
     </dependencies>
     <build>
         <plugins>
@@ -101,7 +108,7 @@
                     <dependency>
                         <groupId>com.puppycrawl.tools</groupId>
                         <artifactId>checkstyle</artifactId>
-                        <version>9.0</version>
+                        <version>9.2.1</version>
                     </dependency>
                 </dependencies>
                 <executions>
