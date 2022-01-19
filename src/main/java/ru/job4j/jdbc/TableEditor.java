@@ -3,6 +3,7 @@ package ru.job4j.jdbc;
 import org.postgresql.util.PSQLException;
 import ru.job4j.io.Config;
 
+import java.io.File;
 import java.io.FileReader;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -20,10 +21,11 @@ public class TableEditor implements AutoCloseable {
     }
 
     private void initConnection() throws Exception {
-        Class.forName("org.postgresql.Driver");
+        String driver = properties.getProperty("driver");
         String url = properties.getProperty("url");
         String login = properties.getProperty("login");
         String password = properties.getProperty("password");
+        Class.forName(driver);
         this.connection = DriverManager.getConnection(url, login, password);
     }
 
@@ -35,21 +37,20 @@ public class TableEditor implements AutoCloseable {
     }
 
     public void createTable(String tableName) throws Exception {
-        String sql = String.format("CREATE TABLE IF NOT EXISTS %s (%s, %s);",
+        final String SQL = String.format("CREATE TABLE IF NOT EXISTS %s (%s);",
                 tableName,
-                "id SERIAL PRIMARY KEY",
-                "name VARCHAR(50)"
+                "id SERIAL PRIMARY KEY"
         );
-        execSQL(tableName, sql);
+        execSQL(tableName, SQL);
     }
 
     public void dropTable(String tableName) throws Exception {
-        String sql = String.format("DROP TABLE IF EXISTS %s;",
+        final String SQL = String.format("DROP TABLE IF EXISTS %s;",
                 tableName
         );
         String result = "DROP TABLE don't work";
         try {
-            execSQL(tableName, sql);
+            execSQL(tableName, SQL);
         } catch (PSQLException err) {
             result = "DROP TABLE - ok";
         }
@@ -57,30 +58,30 @@ public class TableEditor implements AutoCloseable {
     }
 
     public void addColumn(String tableName, String columnName, String type) throws Exception {
-        String sql = String.format("ALTER TABLE IF EXISTS %s ADD %s %s;",
+        final String SQL = String.format("ALTER TABLE IF EXISTS %s ADD %s %s;",
                 tableName,
                 columnName,
                 type
         );
-        execSQL(tableName, sql);
+        execSQL(tableName, SQL);
     }
 
     public void dropColumn(String tableName, String columnName) throws Exception {
-        String sql = String.format("ALTER TABLE IF EXISTS %s DROP COLUMN %s;",
+        final String SQL = String.format("ALTER TABLE IF EXISTS %s DROP COLUMN %s;",
                 tableName,
                 columnName
         );
-        execSQL(tableName, sql);
+        execSQL(tableName, SQL);
     }
 
     public void renameColumn(String tableName, String columnName,
                              String newColumnName) throws Exception {
-        String sql = String.format("ALTER TABLE IF EXISTS %s RENAME %s TO %s;",
+        final String SQL = String.format("ALTER TABLE IF EXISTS %s RENAME %s TO %s;",
                 tableName,
                 columnName,
                 newColumnName
         );
-        execSQL(tableName, sql);
+        execSQL(tableName, SQL);
     }
 
     public static String getTableScheme(Connection connection, String tableName) throws Exception {
@@ -110,9 +111,13 @@ public class TableEditor implements AutoCloseable {
     }
 
     public static void main(String[] args) throws Exception {
-        Path fileProperties = Paths.get("data\\app.properties");
+        Path fileProperties = Paths.get(
+                String.format("src%1$smain%1$sresources%1$sapp.properties", File.separator)
+        );
         Properties properties = new Properties();
-        properties.load(new FileReader(fileProperties.toFile()));
+        try (var fr = new FileReader(fileProperties.toFile())) {
+            properties.load(fr);
+        }
         TableEditor tblEditor = new TableEditor(properties);
         String tName = "newtable";
         String cName = "newcolumn";
@@ -129,5 +134,6 @@ public class TableEditor implements AutoCloseable {
         tblEditor.dropColumn(tName, rName);
         System.out.println("Drop table:");
         tblEditor.dropTable("newtable");
+        tblEditor.close();
     }
 }
