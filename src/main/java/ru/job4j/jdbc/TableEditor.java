@@ -12,7 +12,7 @@ import java.util.StringJoiner;
 
 public class TableEditor implements AutoCloseable {
     private Connection connection;
-    private Properties properties;
+    private final Properties properties;
 
     public TableEditor(Properties properties) throws Exception {
         this.properties = properties;
@@ -57,20 +57,31 @@ public class TableEditor implements AutoCloseable {
     }
 
     public void addColumn(String tableName, String columnName, String type) throws Exception {
-
-        String sql = String.format("ALTER TABLE IF EXISTS %s ADD %s;",
+        String sql = String.format("ALTER TABLE IF EXISTS %s ADD %s %s;",
                 tableName,
-                "newcolumn VARCHAR(50) NOT NULL"
+                columnName,
+                type
         );
         execSQL(tableName, sql);
     }
 
-    public void dropColumn(String tableName, String columnName) {
+    public void dropColumn(String tableName, String columnName) throws Exception {
+        String sql = String.format("ALTER TABLE IF EXISTS %s DROP COLUMN %s;",
+                tableName,
+                columnName
+        );
+        execSQL(tableName, sql);
     }
 
-    public void renameColumn(String tableName, String columnName, String newColumnName) {
+    public void renameColumn(String tableName, String columnName,
+                             String newColumnName) throws Exception {
+        String sql = String.format("ALTER TABLE IF EXISTS %s RENAME %s TO %s;",
+                tableName,
+                columnName,
+                newColumnName
+        );
+        execSQL(tableName, sql);
     }
-
 
     public static String getTableScheme(Connection connection, String tableName) throws Exception {
         var rowSeparator = "-".repeat(30).concat(System.lineSeparator());
@@ -103,7 +114,20 @@ public class TableEditor implements AutoCloseable {
         Properties properties = new Properties();
         properties.load(new FileReader(fileProperties.toFile()));
         TableEditor tblEditor = new TableEditor(properties);
-        tblEditor.createTable("newtable");
+        String tName = "newtable";
+        String cName = "newcolumn";
+        String rName = "rename";
+        String type = "VARCHAR(255) NOT NULL";
+        tblEditor.dropTable("newtable");
+        System.out.println("Create table");
+        tblEditor.createTable(tName);
+        System.out.println("Add column:");
+        tblEditor.addColumn(tName, cName, type);
+        System.out.println("Rename column:");
+        tblEditor.renameColumn(tName, cName, rName);
+        System.out.println("Drop column:");
+        tblEditor.dropColumn(tName, rName);
+        System.out.println("Drop table:");
         tblEditor.dropTable("newtable");
     }
 }
