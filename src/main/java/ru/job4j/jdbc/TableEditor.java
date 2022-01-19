@@ -47,13 +47,13 @@ public class TableEditor implements AutoCloseable {
         String sql = String.format("DROP TABLE IF EXISTS %s;",
                 tableName
         );
+        String result = "DROP TABLE don't work";
         try {
             execSQL(tableName, sql);
         } catch (PSQLException err) {
-            System.out.println("DROP TABLE - ok");
-            return;
+            result = "DROP TABLE - ok";
         }
-        System.out.println("DROP TABLE don't work");
+        System.out.println(result);
     }
 
     public void addColumn(String tableName, String columnName, String type) throws Exception {
