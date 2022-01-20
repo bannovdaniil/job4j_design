@@ -19,7 +19,8 @@ public class ImportDB {
         List<User> users = new ArrayList<>();
         try (BufferedReader rd = new BufferedReader(new FileReader(dump))) {
             rd.lines().forEach((s) -> {
-                if (!s.isEmpty() && s.matches("^([^;]+);([0-9a-zA-Z_\\.\\-%]+@.+\\.[a-zA-Z]+);$")) {
+                if (!s.isEmpty()
+                        && s.matches("^([^;]+);([0-9a-zA-Z_\\.\\-%]+@.+\\.[a-zA-Z]+);$")) {
                     String[] spam = s.trim().split(";");
                     users.add(new User(spam[0], spam[1]));
                 }
