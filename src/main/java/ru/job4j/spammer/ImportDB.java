@@ -15,15 +15,17 @@ public class ImportDB {
         this.dump = dump;
     }
 
-    public List<User> load() throws IOException {
+    public List<User> load() {
         List<User> users = new ArrayList<>();
         try (BufferedReader rd = new BufferedReader(new FileReader(dump))) {
             rd.lines().forEach((s) -> {
-                if (s != null && s.contains(";")) {
+                if (!s.isEmpty() && s.matches("^([^;]+);([0-9a-zA-Z_\\.\\-%]+@.+\\.[a-zA-Z]+);$")) {
                     String[] spam = s.trim().split(";");
                     users.add(new User(spam[0], spam[1]));
                 }
             });
+        } catch (IOException err) {
+            err.printStackTrace();
         }
         return users;
     }
