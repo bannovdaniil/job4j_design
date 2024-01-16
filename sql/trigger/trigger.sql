@@ -51,17 +51,17 @@ $$
 BEGIN
     INSERT INTO history_of_price
         (name, price, date)
-    VALUES (NEW.name, NEW.price, now());
+    VALUES (NEW.name, NEW.price + NEW.price * 0.13, NOW());
     RETURN new;
 END;
 $$
     LANGUAGE 'plpgsql';
 
-
+-- Триггер должен срабатывать до вставки данных и насчитывать налог на товар
+-- (нужно прибавить налог к цене товара). Здесь используем row уровень.
 CREATE TRIGGER save_history
-    AFTER INSERT
+    BEFORE INSERT
     ON products
-    REFERENCING NEW TABLE AS INSERTED
     FOR EACH ROW
 EXECUTE PROCEDURE save_history();
 
